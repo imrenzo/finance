@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <tr>
+            <th class="table_start header">Symbol</th>
+            <th class="table_end header">Shares</th>
+            <th class="table_end header">Price</th>
+            <th class="table_end end header">Total</th>
+        </tr>
+        {% for share in shares %}
+        <tr>
+            <td class="table_start">{{share[0]}}</td>
+            <td class="table_end">{{share[1]}}</td>
+            <td class="table_end">{{share[2]}}</td>
+            <td class="table_end end">{{ "%.2f" | format(share[1] * share[2]) }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="table_end">Cash</td>
+            <td class="table_end end">{{ cash }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="table_end">Total Assets</td>
+            <td class="table_end end">{{ total_assets }}</td>
+        </tr>
+        <tr>
+            <td class="table_start"></td>
+            <td class="table_end"></td>
+            <td class="table_end" style="vertical-align: middle;font-size:20px;font-weight:500;">Add cash:</td>
+            <td class="table_end end" style="display:flex;justify-content: right;">
+                <form action="/add" method="post" style="display:inline-block; padding: 0; margin: 0; background: none; border: none;" class="end">
+                <input autocomplete="off" class="form-control end" style="margin-bottom:.5rem; text-align:center;" name="amount" placeholder="Amount" type="" min="1">
+                <button class="btn btn-primary end" type="submit">Submit</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            let headers = document.getElementsByClassName('header');
+            let width = 0;
+            for (let i = 0, j = headers.length; i < j; i++) {
+                width += headers[i].offsetWidth;
+            }
+            width /= 4;
+            let end = document.getElementsByClassName('end');
+            for (let x = 0, y = end.length; x < y; x++) {
+                end[x].style.width = width + "px";
+                end[x].style.display = "table-cell";
+            }
+            // let form = document.querySelector("form");
+            // let button = document.querySelector("button");
+            // form.style.width = 100 + "px";
+            // button.style.width = 100 + "px";
+        });
+    </script>
+{% endblock %}
+
+
